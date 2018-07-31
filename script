@@ -1,0 +1,43 @@
+#!/bin/bash
+touch random.txt
+bank=0 #временное хранение суммы чисел
+var1=0 #первое число
+Ta=0 #первый доданок
+Tb=0 #второй доданок
+total=0 #лучшая сумма чисел
+numStr=0 #номер строки 1
+numStr2=0 #номер строки 2
+Tstr1=0 #лучшая строка 1
+Tstr2=0 #лучшая строка 2
+
+echo "" > random.txt
+
+for ((i=0; i <= 100; i++))
+do
+	echo $(( $RANDOM % 201 - 100 ))
+done >> random.txt
+
+for firstSTR in $(cat random.txt)
+do
+ numStr=$(( $numStr + 1  ))
+ echo " str #$numStr перебираю число $firstSTR"
+
+ for x in $(cat random.txt)
+ do
+  numStr2=$(( $numStr + 1  ))
+  bank=$(( $firstSTR + $x  ))
+  echo "сумма от $firstSTR + $x = $bank"
+  if [ $bank -ge $total  ]
+  then
+   Ta=$firstSTR
+   Tb=$x
+   Tstr1=$numStr
+   Tstr2=$numStr2
+   total=$bank
+  fi
+  echo "total $total"
+ done
+
+done
+echo "лучший отрезок: строка №$Tstr1 $Ta и строка #$Tstr2 $Tb"
+echo "лучшая сумма чисел  $total"
